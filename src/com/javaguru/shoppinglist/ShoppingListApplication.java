@@ -21,11 +21,20 @@ class ShoppingListApplication {
                     case 1:
                         System.out.println("Enter product name: ");
                         String name = scanner.nextLine();
+                        System.out.println("Enter product category: ");
+                        String category = scanner.nextLine();
                         System.out.println("Enter product price: ");
                         BigDecimal price = new BigDecimal(scanner.nextLine());
+                        System.out.println("Enter product discount: ");
+                        BigDecimal discount = new BigDecimal(scanner.nextLine());
+                        System.out.println("Enter product description: ");
+                        String description = scanner.nextLine();
                         Product product = new Product();
                         product.setName(name);
+                        product.setCategory(category);
                         product.setPrice(price);
+                        product.setDiscount(discount);
+                        product.setDescription(description);
                         product.setId(productIdSequence);
                         productRepository.put(productIdSequence, product);
                         productIdSequence++;
