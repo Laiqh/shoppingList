@@ -21,12 +21,24 @@ class ShoppingListApplication {
                     case 1:
                         System.out.println("Enter product name: ");
                         String name = scanner.nextLine();
+                        if (!nameIsValid(name)) {
+                            System.out.println("Name is invalid");
+                            break;
+                        }
                         System.out.println("Enter product category: ");
                         String category = scanner.nextLine();
                         System.out.println("Enter product price: ");
                         BigDecimal price = new BigDecimal(scanner.nextLine());
+                        if (!priceIsValid(price)) {
+                            System.out.println("Price is invalid");
+                            break;
+                        }
                         System.out.println("Enter product discount: ");
                         BigDecimal discount = new BigDecimal(scanner.nextLine());
+                        if (!discountIsValid(discount)) {
+                            System.out.println("Discount is invalid");
+                            break;
+                        }
                         System.out.println("Enter product description: ");
                         String description = scanner.nextLine();
                         Product product = new Product();
@@ -53,5 +65,17 @@ class ShoppingListApplication {
                 System.out.println("Error! Please try again.");
             }
         }
+    }
+
+    private static boolean priceIsValid(BigDecimal price) {
+        return price.compareTo(BigDecimal.ZERO) > 0;
+    }
+
+    private static boolean discountIsValid(BigDecimal discount) {
+        return discount.compareTo(BigDecimal.ONE) < 0;
+    }
+
+    private static boolean nameIsValid(String name) {
+        return name.length() >= 3 && name.length() <= 32;
     }
 }
