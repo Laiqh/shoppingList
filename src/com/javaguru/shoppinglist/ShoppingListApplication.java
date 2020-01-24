@@ -30,11 +30,13 @@ class ShoppingListApplication {
                         productRepository.put(productIdSequence, product);
                         productIdSequence++;
                         System.out.println("Result: " + product.getId());
+                        break;
                     case 2:
                         System.out.println("Enter product id: ");
                         long id = scanner.nextLong();
                         Product findProductResult = productRepository.get(id);
                         System.out.println(findProductResult);
+                        break;
                     case 3:
                         return;
                 }
