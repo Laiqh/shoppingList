@@ -2,24 +2,13 @@ package com.javaguru.shoppinglist.validation;
 
 import com.javaguru.shoppinglist.domain.Product;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class NameValidationRule implements ValidationRule<Product> {
-    private List<ValidationRule> rules = new ArrayList<>();
+public class NameValidationRule extends AbstractValidationRuleList<Product> implements ValidationRule<Product> {
 
     public NameValidationRule() {
-        rules.add(new NotNull());
-        rules.add(new NameNotNull());
-        rules.add(new NameTooShort());
-        rules.add(new NameTooLong());
+        this.add(new NotNull());
+        this.add(new NameNotNull());
+        this.add(new NameTooShort());
+        this.add(new NameTooLong());
 
     }
-
-    public void validate(Product product) throws ValidationException {
-        for (ValidationRule rule : rules) {
-            rule.validate(product);
-        }
-    }
-
 }
