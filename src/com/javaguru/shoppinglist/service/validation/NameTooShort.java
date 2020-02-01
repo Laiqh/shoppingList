@@ -2,7 +2,7 @@ package com.javaguru.shoppinglist.service.validation;
 
 import com.javaguru.shoppinglist.domain.Product;
 
-public class NameTooShort implements ValidationRule<Product> {
+public class NameTooShort extends AbstractValidationRule<Product> {
     private int minLength;
 
     public NameTooShort(int minLength) {

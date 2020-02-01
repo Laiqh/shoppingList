@@ -4,7 +4,7 @@ import com.javaguru.shoppinglist.domain.Product;
 
 import java.math.BigDecimal;
 
-public class DiscountMinPrice implements ValidationRule<Product> {
+public class DiscountMinPrice extends AbstractValidationRule<Product> {
     private BigDecimal minPrice;
 
     public DiscountMinPrice(BigDecimal minPrice) {

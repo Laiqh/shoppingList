@@ -5,7 +5,7 @@ import com.javaguru.shoppinglist.repository.Repository;
 
 import java.util.List;
 
-public class NameUnique implements ValidationRule<Product> {
+public class NameUnique extends AbstractValidationRule<Product> {
     private Repository<Product> repository;
 
     public NameUnique(Repository<Product> repository) {

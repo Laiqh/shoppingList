@@ -2,7 +2,7 @@ package com.javaguru.shoppinglist.service.validation;
 
 import com.javaguru.shoppinglist.domain.Product;
 
-public class NameTooLong implements ValidationRule<Product> {
+public class NameTooLong extends AbstractValidationRule<Product> {
     private int maxLength;
 
     public NameTooLong(int maxLength) {
