@@ -1,9 +1,13 @@
 package com.javaguru.shoppinglist.repository;
 
+import java.util.List;
+
 public interface Repository<T> {
     Long insert(T item);
 
-    T findById(Long id);
+    T get(Long id);
 
-    void removeById(Long id);
+    void remove(Long id);
+
+    List<T> getAll();
 }

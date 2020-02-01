@@ -20,6 +20,6 @@ public class ProductService {
     }
 
     public Product findById(Long id) {
-        return repository.findById(id);
+        return repository.get(id);
     }
 }

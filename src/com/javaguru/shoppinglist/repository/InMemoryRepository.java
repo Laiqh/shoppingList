@@ -1,6 +1,8 @@
 package com.javaguru.shoppinglist.repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class InMemoryRepository<T extends Identifiable> implements Repository<T> {
@@ -14,11 +16,15 @@ public class InMemoryRepository<T extends Identifiable> implements Repository<T>
         return item.getId();
     }
 
-    public T findById(Long id) {
+    public T get(Long id) {
         return items.get(id);
     }
 
-    public void removeById(Long id) {
+    public void remove(Long id) {
         items.remove(id);
+    }
+
+    public List<T> getAll() {
+        return new ArrayList<>(items.values());
     }
 }
