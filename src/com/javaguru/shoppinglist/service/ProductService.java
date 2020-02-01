@@ -6,8 +6,8 @@ import com.javaguru.shoppinglist.service.validation.ValidationException;
 import com.javaguru.shoppinglist.service.validation.ValidationRule;
 
 public class ProductService {
-    private ValidationRule validationRule;
-    private Repository repository;
+    private ValidationRule<Product> validationRule;
+    private Repository<Product> repository;
 
     public ProductService(ValidationRule validationRule, Repository repository) {
         this.validationRule = validationRule;
@@ -17,5 +17,9 @@ public class ProductService {
     public Long add(Product product) throws ValidationException {
         validationRule.validate(product);
         return repository.insert(product);
+    }
+
+    public Product findById(Long id) {
+        return repository.findById(id);
     }
 }
