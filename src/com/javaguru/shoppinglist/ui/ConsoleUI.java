@@ -34,8 +34,10 @@ public class ConsoleUI {
                     default:
                         System.out.println("Unknown command");
                 }
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number format");
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                e.printStackTrace(System.out);
             }
         }
     }
@@ -71,7 +73,7 @@ public class ConsoleUI {
 
     private void findProductById() {
         System.out.println("Enter product id: ");
-        long id = scanner.nextLong();
+        Long id = Long.parseLong(scanner.nextLine());
         Product findProductResult = service.findById(id);
         System.out.println(findProductResult);
     }
