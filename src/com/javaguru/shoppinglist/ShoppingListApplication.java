@@ -21,7 +21,7 @@ class ShoppingListApplication {
 
     public ShoppingListApplication() {
         this.repository = new InMemoryRepository<>();
-        this.validationRule = new ProductValidationRule();
+        this.validationRule = new ProductValidationRule(repository);
         this.service = new ProductService(validationRule, repository);
         this.ui = new ConsoleUI(service);
     }
