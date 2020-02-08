@@ -40,7 +40,7 @@ public class ProductValidationService extends AbstractValidationRuleList<Product
         ValidationRule<Product> rule = new ProductValidationRule();
         rule.add(new DiscountNotNull());
         rule.add(new DiscountLessThanOne());
-        rule.add(new DiscountGreaterThanZero());
+        rule.add(new DiscountGreaterOrEqualsThanZero());
         rule.add(new DiscountMinPrice(new BigDecimal("20")));
         return rule;
     }
