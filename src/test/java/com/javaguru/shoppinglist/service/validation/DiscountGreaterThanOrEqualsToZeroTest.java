@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DiscountGreaterOrEqualsThanZeroTest {
+public class DiscountGreaterThanOrEqualsToZeroTest {
     private Product product;
     ValidationRule rule;
     BigDecimal discount;
@@ -16,7 +16,7 @@ public class DiscountGreaterOrEqualsThanZeroTest {
     @BeforeEach
     public void init() {
         product = new Product();
-        rule = new DiscountGreaterOrEqualsThanZero();
+        rule = new DiscountGreaterThanOrEqualsToZero();
     }
 
     @Test
