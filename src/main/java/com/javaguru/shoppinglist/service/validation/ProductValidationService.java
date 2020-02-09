@@ -39,7 +39,7 @@ public class ProductValidationService extends AbstractValidationRuleList<Product
     private ValidationRule<Product> createDiscountValidationRule() {
         ValidationRule<Product> rule = new ProductValidationRule();
         rule.add(new DiscountNotNull());
-        rule.add(new DiscountLessThanOne());
+        rule.add(new DiscountLessThanOrEqualsToOne());
         rule.add(new DiscountGreaterThanOrEqualsToZero());
         rule.add(new DiscountMinPrice(new BigDecimal("20")));
         return rule;
