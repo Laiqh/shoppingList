@@ -4,21 +4,26 @@ import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.repository.Repository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class NameUniqueTest {
     private static final String NAME = "name";
     private static final String ANOTHER_NAME = "not name";
 
-    private Product product;
+    @Mock
     private Repository repository;
     private ValidationRule rule;
+    private Product product;
     private Product anotherProduct;
 
     @BeforeEach
@@ -29,14 +34,13 @@ class NameUniqueTest {
         anotherProduct = new Product();
         anotherProduct.setName(ANOTHER_NAME);
 
-        repository = Mockito.mock(Repository.class);
         rule = new NameUnique(repository);
     }
 
     @Test
     public void isUnique() {
         List<Product> uniqueList = new ArrayList<>(Arrays.asList(anotherProduct));
-        Mockito.when(repository.getAll()).thenReturn(uniqueList);
+        when(repository.getAll()).thenReturn(uniqueList);
 
         try {
             rule.validate(product);
@@ -48,7 +52,7 @@ class NameUniqueTest {
     @Test
     public void notUnique() {
         List<Product> notUniqueList = new ArrayList<>(Arrays.asList(anotherProduct, product));
-        Mockito.when(repository.getAll()).thenReturn(notUniqueList);
+        when(repository.getAll()).thenReturn(notUniqueList);
 
         Exception exception = assertThrows(ValidationException.class, () -> {
             rule.validate(product);
