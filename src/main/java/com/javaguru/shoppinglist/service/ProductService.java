@@ -23,4 +23,20 @@ public class ProductService {
     public Product findById(Long id) {
         return repository.get(id);
     }
+
+    public ValidationRule<Product> getValidationRule() {
+        return validationRule;
+    }
+
+    public void setValidationRule(ValidationRule<Product> validationRule) {
+        this.validationRule = validationRule;
+    }
+
+    public Repository<Product> getRepository() {
+        return repository;
+    }
+
+    public void setRepository(Repository<Product> repository) {
+        this.repository = repository;
+    }
 }
