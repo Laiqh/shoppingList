@@ -16,7 +16,8 @@ public class ProductService {
 
     public Long add(Product product) throws ValidationException {
         validationRule.validate(product);
-        return repository.insert(product);
+        Long id = repository.insert(product);
+        return id;
     }
 
     public Product findById(Long id) {
