@@ -3,14 +3,18 @@ package com.javaguru.shoppinglist.ui;
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.service.ProductService;
 import com.javaguru.shoppinglist.service.validation.ValidationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
 
+@Component
 public class ConsoleUI {
-    private ProductService service;
+    private final ProductService service;
     private Scanner scanner = new Scanner(System.in);
 
+    @Autowired
     public ConsoleUI(ProductService service) {
         this.service = service;
     }

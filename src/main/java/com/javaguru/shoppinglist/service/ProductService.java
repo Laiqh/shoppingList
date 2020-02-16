@@ -4,12 +4,16 @@ import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.repository.Repository;
 import com.javaguru.shoppinglist.service.validation.ValidationException;
 import com.javaguru.shoppinglist.service.validation.ValidationRule;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ProductService {
     private ValidationRule<Product> validationRule;
     private Repository<Product> repository;
 
-    public ProductService(ValidationRule rules, Repository repository) {
+    @Autowired
+    public ProductService(ValidationRule<Product> rules, Repository<Product> repository) {
         this.repository = repository;
         this.validationRule = rules;
     }

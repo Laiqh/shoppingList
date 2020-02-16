@@ -1,10 +1,13 @@
 package com.javaguru.shoppinglist.repository;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class InMemoryRepository<T extends Identifiable> implements Repository<T> {
     private Long id = 0L;
     private Map<Long, T> items = new HashMap<>();

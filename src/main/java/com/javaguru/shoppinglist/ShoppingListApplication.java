@@ -6,6 +6,8 @@ import com.javaguru.shoppinglist.repository.Repository;
 import com.javaguru.shoppinglist.service.ProductService;
 import com.javaguru.shoppinglist.service.validation.*;
 import com.javaguru.shoppinglist.ui.ConsoleUI;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.math.BigDecimal;
 
@@ -16,8 +18,9 @@ class ShoppingListApplication {
     private ConsoleUI ui;
 
     public static void main(String[] args) {
-        ShoppingListApplication application = new ShoppingListApplication();
-        application.execute();
+        ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
+        ConsoleUI console = context.getBean(ConsoleUI.class);
+        console.execute();
     }
 
     public ShoppingListApplication() {

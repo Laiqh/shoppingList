@@ -2,9 +2,11 @@ package com.javaguru.shoppinglist.service.validation;
 
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.repository.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class NameUnique extends AbstractValidationRule<Product> {
     private Repository<Product> repository;
 
