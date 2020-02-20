@@ -4,9 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractValidationRuleList<T> implements ValidationRule<T> {
-    private List<ValidationRule<T>> rules = new ArrayList<>();
+    private List<ValidationRule<T>> rules;
 
-    public final void add(ValidationRule<T> rule) {
+    public AbstractValidationRuleList() {
+        rules = new ArrayList<>();
+    }
+
+    public AbstractValidationRuleList(List<ValidationRule<T>> rules) {
+        this.rules = rules;
+    }
+
+    public void add(ValidationRule<T> rule) {
         rules.add(rule);
     }
 

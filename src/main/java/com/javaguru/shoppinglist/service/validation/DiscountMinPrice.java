@@ -1,6 +1,7 @@
 package com.javaguru.shoppinglist.service.validation;
 
 import com.javaguru.shoppinglist.domain.Product;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -9,7 +10,7 @@ import java.math.BigDecimal;
 public class DiscountMinPrice extends AbstractValidationRule<Product> {
     private BigDecimal minPrice;
 
-    public DiscountMinPrice(BigDecimal minPrice) {
+    public DiscountMinPrice(@Value("${discountMinPrice}") BigDecimal minPrice) {
         this.minPrice = minPrice;
     }
 
