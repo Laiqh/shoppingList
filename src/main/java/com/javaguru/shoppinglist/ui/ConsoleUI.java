@@ -11,8 +11,13 @@ import java.util.Scanner;
 
 @Component
 public class ConsoleUI {
-    private final ProductService service;
+    private static final int CREATE_PRODUCT = 1;
+    private static final int FIND_BY_ID = 2;
+    private static final int EXIT = 0;
+
+    private ProductService service;
     private Scanner scanner = new Scanner(System.in);
+    private boolean toContinue = true;
 
     @Autowired
     public ConsoleUI(ProductService service) {
@@ -20,29 +25,39 @@ public class ConsoleUI {
     }
 
     public void execute() {
-        while (true) {
+        while (toContinue) {
             try {
-                System.out.println("1. Create product");
-                System.out.println("2. Find product by id");
-                System.out.println("3. Exit");
+                printMainMenu();
                 Integer userInput = Integer.valueOf(scanner.nextLine());
-                switch (userInput) {
-                    case 1:
-                        createProduct();
-                        break;
-                    case 2:
-                        findProductById();
-                        break;
-                    case 3:
-                        return;
-                    default:
-                        System.out.println("Unknown command");
-                }
+                processMainMenuInput(userInput);
             } catch (NumberFormatException e) {
                 System.out.println("Invalid number format");
             } catch (Exception e) {
                 e.printStackTrace(System.out);
             }
+        }
+    }
+
+    private void printMainMenu() {
+        System.out.println("Choose an action:");
+        System.out.println(CREATE_PRODUCT + ". Create product");
+        System.out.println(FIND_BY_ID + ". Find product by id");
+        System.out.println(EXIT + ". Exit");
+    }
+
+    private void processMainMenuInput(Integer userInput) {
+        switch (userInput) {
+            case CREATE_PRODUCT:
+                createProduct();
+                break;
+            case FIND_BY_ID:
+                findProductById();
+                break;
+            case EXIT:
+                toContinue = false;
+                break;
+            default:
+                System.out.println("Unknown command");
         }
     }
 
