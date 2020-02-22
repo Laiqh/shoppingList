@@ -62,16 +62,12 @@ public class ConsoleUI {
     }
 
     private void createProduct() {
-        System.out.println("Enter product name: ");
-        String name = scanner.nextLine();
-        System.out.println("Enter product category: ");
-        String category = scanner.nextLine();
-        System.out.println("Enter product price: ");
-        BigDecimal price = new BigDecimal(scanner.nextLine());
-        System.out.println("Enter product discount: ");
-        BigDecimal discount = new BigDecimal(scanner.nextLine());
-        System.out.println("Enter product description: ");
-        String description = scanner.nextLine();
+        String name = requestName();
+        String category = requestCategory();
+        BigDecimal price = requestPrice();
+        BigDecimal discount = requestDiscount();
+        String description = requestDescription();
+
         Product product = new Product();
         product.setName(name);
         product.setCategory(category);
@@ -95,5 +91,30 @@ public class ConsoleUI {
         Long id = Long.parseLong(scanner.nextLine());
         Product findProductResult = service.findById(id);
         System.out.println(findProductResult);
+    }
+
+    private String requestName() {
+        System.out.println("Enter name: ");
+        return scanner.nextLine();
+    }
+
+    private String requestCategory() {
+        System.out.println("Enter category: ");
+        return scanner.nextLine();
+    }
+
+    private BigDecimal requestPrice() {
+        System.out.println("Enter price: ");
+        return new BigDecimal(scanner.nextLine());
+    }
+
+    private BigDecimal requestDiscount() {
+        System.out.println("Enter discount: ");
+        return new BigDecimal(scanner.nextLine());
+    }
+
+    private String requestDescription() {
+        System.out.println("Enter product description: ");
+        return scanner.nextLine();
     }
 }
