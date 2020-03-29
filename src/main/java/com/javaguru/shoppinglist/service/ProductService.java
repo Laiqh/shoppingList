@@ -7,6 +7,8 @@ import com.javaguru.shoppinglist.service.validation.ValidationRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ProductService {
     private ValidationRule<Product> validationRule;
@@ -26,6 +28,10 @@ public class ProductService {
 
     public Product findById(Long id) {
         return repository.get(id);
+    }
+
+    public List<Product> findAll() {
+        return repository.getAll();
     }
 
     public ValidationRule<Product> getValidationRule() {

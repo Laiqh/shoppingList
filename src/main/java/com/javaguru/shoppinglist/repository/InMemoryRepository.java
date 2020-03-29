@@ -1,13 +1,12 @@
 package com.javaguru.shoppinglist.repository;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
+@Profile("inmemory")
 public class InMemoryRepository<T extends Identifiable> implements Repository<T> {
     private Long id = 0L;
     private Map<Long, T> items = new HashMap<>();
@@ -20,7 +19,9 @@ public class InMemoryRepository<T extends Identifiable> implements Repository<T>
     }
 
     public T get(Long id) {
-        return items.get(id);
+        if (items.containsKey(id)) {
+            return items.get(id);
+        } else throw new NoSuchElementException("No item found for ID " + id);
     }
 
     public void remove(Long id) {
