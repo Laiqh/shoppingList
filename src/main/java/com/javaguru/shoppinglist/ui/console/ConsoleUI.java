@@ -1,8 +1,9 @@
-package com.javaguru.shoppinglist.ui;
+package com.javaguru.shoppinglist.ui.console;
 
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.service.ProductService;
 import com.javaguru.shoppinglist.service.validation.ValidationException;
+import com.javaguru.shoppinglist.ui.console.action.Action;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,12 @@ import java.util.Scanner;
 
 @Component
 public class ConsoleUI {
+    private List<Action> actions;
+
+    public ConsoleUI(List<Action> actions) {
+        this.actions = actions;
+    }
+
     private static final int CREATE_PRODUCT = 1;
     private static final int FIND_BY_ID = 2;
     private static final int FIND_ALL = 3;
