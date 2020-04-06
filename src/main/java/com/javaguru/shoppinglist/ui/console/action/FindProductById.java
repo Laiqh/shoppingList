@@ -2,6 +2,7 @@ package com.javaguru.shoppinglist.ui.console.action;
 
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
@@ -14,6 +15,7 @@ public class FindProductById implements Action {
 
     private Scanner scanner = new Scanner(System.in);
 
+    @Autowired
     public FindProductById(ProductService productService) {
         this.productService = productService;
     }

@@ -29,10 +29,10 @@ public class ConsoleUIConfiguration {
     @Bean
     public ConsoleUI consoleUI() {
         List<Action> actions = new ArrayList<>();
+        actions.add(exit);
         actions.add(createProduct);
         actions.add(findProductById);
         actions.add(findAllProducts);
-        actions.add(exit);
 
         return new ConsoleUI(actions);
     }

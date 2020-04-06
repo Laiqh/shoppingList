@@ -3,6 +3,7 @@ package com.javaguru.shoppinglist.ui.console.action;
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.service.ProductService;
 import com.javaguru.shoppinglist.service.validation.ValidationException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -16,6 +17,7 @@ public class CreateProduct implements Action {
 
     private Scanner scanner = new Scanner(System.in);
 
+    @Autowired
     public CreateProduct(ProductService productService) {
         this.productService = productService;
     }
