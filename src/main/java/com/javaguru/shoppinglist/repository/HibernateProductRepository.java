@@ -32,7 +32,8 @@ public class HibernateProductRepository implements Repository<Product> {
 
     @Override
     public Product get(Long id) {
-        Product product = sessionFactory.getCurrentSession().get(Product.class, id);
+        Session session = sessionFactory.getCurrentSession();
+        Product product = session.get(Product.class, id);
 
         if (product != null) {
             return product;
@@ -43,7 +44,14 @@ public class HibernateProductRepository implements Repository<Product> {
 
     @Override
     public void remove(Long id) {
+        Session session = sessionFactory.getCurrentSession();
+        Product product = session.get(Product.class, id);
 
+        if (product != null) {
+            session.remove(product);
+        } else {
+            throw new NoSuchElementException("No item found for ID " + id);
+        }
     }
 
     public List<Product> getAll() {
