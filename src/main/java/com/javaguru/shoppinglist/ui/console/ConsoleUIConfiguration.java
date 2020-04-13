@@ -13,16 +13,19 @@ public class ConsoleUIConfiguration {
     private Action createProduct;
     private Action findProductById;
     private Action findAllProducts;
+    private Action removeProduct;
     private Action exit;
 
     @Autowired
     public ConsoleUIConfiguration(Action createProduct,
                                   Action findProductById,
                                   Action findAllProducts,
+                                  Action removeProduct,
                                   Action exit) {
         this.createProduct = createProduct;
         this.findProductById = findProductById;
         this.findAllProducts = findAllProducts;
+        this.removeProduct = removeProduct;
         this.exit = exit;
     }
 
@@ -33,6 +36,7 @@ public class ConsoleUIConfiguration {
         actions.add(createProduct);
         actions.add(findProductById);
         actions.add(findAllProducts);
+        actions.add(removeProduct);
 
         return new ConsoleUI(actions);
     }
