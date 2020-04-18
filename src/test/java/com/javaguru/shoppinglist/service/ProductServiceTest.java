@@ -46,4 +46,11 @@ class ProductServiceTest {
 
         verify(repository).get(0L);
     }
+
+    @Test
+    public void findAll() {
+        service.findAll();
+
+        verify(repository).getAll();
+    }
 }

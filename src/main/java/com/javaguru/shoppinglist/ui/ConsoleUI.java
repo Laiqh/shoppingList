@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 @Component
 public class ConsoleUI {
     private static final int CREATE_PRODUCT = 1;
     private static final int FIND_BY_ID = 2;
+    private static final int FIND_ALL = 3;
     private static final int EXIT = 0;
 
     private ProductService service;
@@ -32,6 +35,8 @@ public class ConsoleUI {
                 processMainMenuInput(userInput);
             } catch (NumberFormatException e) {
                 System.out.println("Invalid number format");
+            } catch (NoSuchElementException e) {
+                System.out.println(e.getMessage());
             } catch (Exception e) {
                 e.printStackTrace(System.out);
             }
@@ -42,6 +47,7 @@ public class ConsoleUI {
         System.out.println("Choose an action:");
         System.out.println(CREATE_PRODUCT + ". Create product");
         System.out.println(FIND_BY_ID + ". Find product by id");
+        System.out.println(FIND_ALL + ". Find all products");
         System.out.println(EXIT + ". Exit");
     }
 
@@ -52,6 +58,9 @@ public class ConsoleUI {
                 break;
             case FIND_BY_ID:
                 findProductById();
+                break;
+            case FIND_ALL:
+                findAllProducts();
                 break;
             case EXIT:
                 toContinue = false;
@@ -86,13 +95,6 @@ public class ConsoleUI {
         System.out.println("Product with ID " + id + " has been added");
     }
 
-    private void findProductById() {
-        System.out.println("Enter product id: ");
-        Long id = Long.parseLong(scanner.nextLine());
-        Product findProductResult = service.findById(id);
-        System.out.println(findProductResult);
-    }
-
     private String requestName() {
         System.out.println("Enter name: ");
         return scanner.nextLine();
@@ -116,5 +118,17 @@ public class ConsoleUI {
     private String requestDescription() {
         System.out.println("Enter product description: ");
         return scanner.nextLine();
+    }
+
+    private void findProductById() {
+        System.out.println("Enter product id: ");
+        Long id = Long.parseLong(scanner.nextLine());
+        Product findProductResult = service.findById(id);
+        System.out.println(findProductResult);
+    }
+
+    private void findAllProducts() {
+        List<Product> products = service.findAll();
+        System.out.println(products);
     }
 }
