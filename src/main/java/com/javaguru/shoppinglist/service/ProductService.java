@@ -34,6 +34,10 @@ public class ProductService {
         return repository.getAll();
     }
 
+    public void remove(Long id) {
+        repository.remove(id);
+    }
+
     public ValidationRule<Product> getValidationRule() {
         return validationRule;
     }
