@@ -1,14 +1,14 @@
 package com.javaguru.shoppinglist;
 
-import com.javaguru.shoppinglist.ui.console.ConsoleUI;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.context.annotation.Import;
 
-class ShoppingListApplication {
-
+@SpringBootApplication(exclude = HibernateJpaAutoConfiguration.class)
+@Import(ApplicationConfiguration.class)
+public class ShoppingListApplication {
     public static void main(String[] args) {
-        ApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfiguration.class);
-        ConsoleUI console = context.getBean(ConsoleUI.class);
-        console.start();
+        SpringApplication.run(ShoppingListApplication.class);
     }
 }

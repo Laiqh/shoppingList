@@ -30,6 +30,9 @@ public class Product implements Identifiable {
     @Column(name = "description", columnDefinition = "LONG")
     private String description;
 
+    public Product() {
+    }
+
     public Long getId() {
         return id;
     }
