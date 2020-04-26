@@ -39,7 +39,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity create(@Validated({ProductDTO.Create.class}) @RequestBody ProductDTO productDTO,
                                  UriComponentsBuilder builder) {
-        Long id = productService.add(productDTO);
+        Long id = productService.save(productDTO);
         URI location = builder.path("api/v1/products/{id}").buildAndExpand(id).toUri();
         return ResponseEntity.created(location).build();
     }
@@ -58,7 +58,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id) {
-        productService.remove(id);
+        productService.delete(id);
         return ResponseEntity.noContent().build();
     }
 }

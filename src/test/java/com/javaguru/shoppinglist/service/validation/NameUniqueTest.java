@@ -1,7 +1,7 @@
 package com.javaguru.shoppinglist.service.validation;
 
 import com.javaguru.shoppinglist.domain.Product;
-import com.javaguru.shoppinglist.repository.Repository;
+import com.javaguru.shoppinglist.repository.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +21,7 @@ class NameUniqueTest {
     private static final String ANOTHER_NAME = "not name";
 
     @Mock
-    private Repository repository;
+    private ProductRepository productRepository;
     private ValidationRule rule;
     private Product product;
     private Product anotherProduct;
@@ -34,13 +34,13 @@ class NameUniqueTest {
         anotherProduct = new Product();
         anotherProduct.setName(ANOTHER_NAME);
 
-        rule = new NameUnique(repository);
+        rule = new NameUnique(productRepository);
     }
 
     @Test
     public void isUnique() {
         List<Product> uniqueList = new ArrayList<>(Arrays.asList(anotherProduct));
-        when(repository.getAll()).thenReturn(uniqueList);
+        when(productRepository.findAll()).thenReturn(uniqueList);
 
         try {
             rule.validate(product);
@@ -52,7 +52,7 @@ class NameUniqueTest {
     @Test
     public void notUnique() {
         List<Product> notUniqueList = new ArrayList<>(Arrays.asList(anotherProduct, product));
-        when(repository.getAll()).thenReturn(notUniqueList);
+        when(productRepository.findAll()).thenReturn(notUniqueList);
 
         Exception exception = assertThrows(ValidationException.class, () -> {
             rule.validate(product);

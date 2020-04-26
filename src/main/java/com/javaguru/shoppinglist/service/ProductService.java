@@ -3,56 +3,58 @@ package com.javaguru.shoppinglist.service;
 import com.javaguru.shoppinglist.converter.ProductDTOConverter;
 import com.javaguru.shoppinglist.domain.Product;
 import com.javaguru.shoppinglist.dto.ProductDTO;
-import com.javaguru.shoppinglist.repository.Repository;
+import com.javaguru.shoppinglist.repository.ProductRepository;
 import com.javaguru.shoppinglist.service.validation.ValidationException;
 import com.javaguru.shoppinglist.service.validation.ValidationRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Component
 public class ProductService {
     private ValidationRule<Product> validationRule;
-    private Repository<Product> repository;
+    private ProductRepository productRepository;
     private ProductDTOConverter converter;
 
     @Autowired
-    public ProductService(ValidationRule<Product> rules, Repository<Product> repository, ProductDTOConverter converter) {
-        this.repository = repository;
+    public ProductService(ValidationRule<Product> rules, ProductRepository productRepository, ProductDTOConverter converter) {
+        this.productRepository = productRepository;
         this.validationRule = rules;
         this.converter = converter;
     }
 
-    public Long add(ProductDTO productDTO) throws ValidationException {
+    public Long save(ProductDTO productDTO) throws ValidationException {
         Product product = converter.convert(productDTO);
         validationRule.validate(product);
-        Long id = repository.insert(product);
-        return id;
+        product = productRepository.save(product);
+        return product.getId();
     }
 
     public void update(ProductDTO productDTO) throws ValidationException {
-        Product product = converter.convert(productDTO);
-        validationRule.validate(product);
-        repository.update(product);
+        Product product = productRepository.findById(productDTO.getId()).orElseThrow(() -> new NoSuchElementException("No record found for id " + productDTO.getId()));
+        Product newProduct = converter.convert(productDTO);
+        validationRule.validate(newProduct);
+        productRepository.save(newProduct);
     }
 
     public ProductDTO findById(Long id) {
-        Product product = repository.get(id);
+        Product product = productRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No record found with id: " + id));
 
         return converter.convert(product);
     }
 
     public List<ProductDTO> findAll() {
-        List<Product> products = repository.getAll();
+        List<Product> products = productRepository.findAll();
         List<ProductDTO> productDTOs = products.stream().map(x -> converter.convert(x)).collect(Collectors.toList());
 
         return productDTOs;
     }
 
-    public void remove(Long id) {
-        repository.remove(id);
+    public void delete(Long id) {
+        productRepository.deleteById(id);
     }
 
     public ValidationRule<Product> getValidationRule() {
@@ -63,11 +65,11 @@ public class ProductService {
         this.validationRule = validationRule;
     }
 
-    public Repository<Product> getRepository() {
-        return repository;
+    public ProductRepository getProductRepository() {
+        return productRepository;
     }
 
-    public void setRepository(Repository<Product> repository) {
-        this.repository = repository;
+    public void setProductRepository(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 }
