@@ -1,29 +1,28 @@
 package com.javaguru.shoppinglist.dto;
 
-import com.javaguru.shoppinglist.domain.Product;
-
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 
 public class ProductDTO {
 
+    @Null(message = "Please do not provide ID", groups = {Create.class})
+    @NotNull(message = "ID must not be null", groups = {Update.class})
     private Long id;
+
     private String name;
+
     private String category;
+
+    @NotNull(message = "Please provide a price", groups = {Create.class})
     private BigDecimal price;
+
     private BigDecimal discount;
+
+    @Null(message = "Please do not provide final price", groups = {Create.class})
+    private BigDecimal finalPrice;
+
     private String description;
-
-    public ProductDTO() {
-    }
-
-    public ProductDTO(Product product) {
-        this.id = product.getId();
-        this.name = product.getName();
-        this.category = product.getCategory();
-        this.price = product.getPrice();
-        this.discount = product.getDiscount();
-        this.description = product.getDescription();
-    }
 
     public Long getId() {
         return id;
@@ -65,11 +64,25 @@ public class ProductDTO {
         this.discount = discount;
     }
 
+    public BigDecimal getFinalPrice() {
+        return finalPrice;
+    }
+
+    public void setFinalPrice(BigDecimal finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public interface Create {
+    }
+
+    public interface Update {
     }
 }

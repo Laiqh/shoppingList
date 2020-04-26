@@ -1,12 +1,16 @@
 package com.javaguru.shoppinglist.controller;
 
-import com.javaguru.shoppinglist.domain.Product;
+import com.javaguru.shoppinglist.dto.ProductDTO;
 import com.javaguru.shoppinglist.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -21,20 +25,35 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<Product> findAll() {
-        return productService.findAll();
+    public ResponseEntity<List<ProductDTO>> findAll() {
+        List<ProductDTO> productDTOs = productService.findAll();
+        return ResponseEntity.ok(productDTOs);
     }
 
     @GetMapping("/{id}")
-    public Product findProductById(@PathVariable("id") Long id) {
-        Product product = productService.findById(id);
-        return product;
+    public ResponseEntity<ProductDTO> findProductById(@PathVariable("id") Long id) {
+        ProductDTO productDTO = productService.findById(id);
+        return ResponseEntity.ok(productDTO);
     }
 
     @PostMapping
-    public ResponseEntity create(@RequestBody Product product, UriComponentsBuilder builder) {
-        Long id = productService.add(product);
-        return ResponseEntity.created(builder.path("api/v1/products/{id}").buildAndExpand(id).toUri()).build();
+    public ResponseEntity create(@Validated({ProductDTO.Create.class}) @RequestBody ProductDTO productDTO,
+                                 UriComponentsBuilder builder) {
+        Long id = productService.add(productDTO);
+        URI location = builder.path("api/v1/products/{id}").buildAndExpand(id).toUri();
+        return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping
+    public ResponseEntity update(@Validated({ProductDTO.Update.class}) @RequestBody ProductDTO productDTO,
+                                 UriComponentsBuilder builder) {
+        Long id = productDTO.getId();
+        productService.update(productDTO);
+
+        URI location = builder.path("api/v1/products/{id}").buildAndExpand(id).toUri();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(location);
+        return new ResponseEntity<Void>(headers, HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{id}")

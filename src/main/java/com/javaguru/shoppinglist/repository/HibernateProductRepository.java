@@ -38,8 +38,21 @@ public class HibernateProductRepository implements Repository<Product> {
         if (product != null) {
             return product;
         } else {
-            throw new NoSuchElementException("No item found for ID " + id);
+            throw new NoSuchElementException("No record found for ID " + id);
         }
+    }
+
+    public void update(Product product) {
+        Session session = sessionFactory.getCurrentSession();
+        Long id = product.getId();
+
+        if (session.get(Product.class, id) == null) {
+            throw new NoSuchElementException("No record found for ID " + id);
+        }
+
+        session.clear();
+
+        session.update(product);
     }
 
     @Override
@@ -50,7 +63,7 @@ public class HibernateProductRepository implements Repository<Product> {
         if (product != null) {
             session.remove(product);
         } else {
-            throw new NoSuchElementException("No item found for ID " + id);
+            throw new NoSuchElementException("No record found for ID " + id);
         }
     }
 

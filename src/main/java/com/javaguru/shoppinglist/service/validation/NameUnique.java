@@ -17,7 +17,7 @@ public class NameUnique extends AbstractValidationRule<Product> {
     public void validate(Product product) throws ValidationException {
         List<Product> products = repository.getAll();
         for (Product p : products) {
-            if (p.getName().equals(product.getName())) {
+            if (p.getName().equals(product.getName()) && !p.getId().equals(product.getId())) {
                 throw new ValidationException("Name must be unique");
             }
         }
