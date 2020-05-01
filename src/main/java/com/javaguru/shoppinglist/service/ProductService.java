@@ -34,7 +34,7 @@ public class ProductService {
     }
 
     public void update(ProductDTO productDTO) throws ValidationException {
-        Product product = productRepository.findById(productDTO.getId()).orElseThrow(() -> new NoSuchElementException("No record found for id " + productDTO.getId()));
+        productRepository.findById(productDTO.getId()).orElseThrow(() -> new NoSuchElementException("No record found for id " + productDTO.getId()));
         Product newProduct = converter.convert(productDTO);
         validationRule.validate(newProduct);
         productRepository.save(newProduct);
