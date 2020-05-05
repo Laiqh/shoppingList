@@ -56,20 +56,4 @@ public class ProductService {
     public void delete(Long id) {
         productRepository.deleteById(id);
     }
-
-    public ValidationRule<Product> getValidationRule() {
-        return validationRule;
-    }
-
-    public void setValidationRule(ValidationRule<Product> validationRule) {
-        this.validationRule = validationRule;
-    }
-
-    public ProductRepository getProductRepository() {
-        return productRepository;
-    }
-
-    public void setProductRepository(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
 }
