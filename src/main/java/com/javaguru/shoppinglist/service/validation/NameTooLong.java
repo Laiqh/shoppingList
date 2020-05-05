@@ -2,9 +2,11 @@ package com.javaguru.shoppinglist.service.validation;
 
 import com.javaguru.shoppinglist.domain.Product;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
+@PropertySource("classpath:validation.properties")
 public class NameTooLong extends AbstractValidationRule<Product> {
     private int maxLength;
 

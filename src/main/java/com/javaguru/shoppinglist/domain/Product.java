@@ -1,14 +1,12 @@
 package com.javaguru.shoppinglist.domain;
 
-import com.javaguru.shoppinglist.repository.Identifiable;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Entity
 @Table(name = "products")
-public class Product implements Identifiable {
+public class Product {
 
     @Id
     @Column(name = "product_id")
@@ -29,6 +27,9 @@ public class Product implements Identifiable {
 
     @Column(name = "description", columnDefinition = "LONG")
     private String description;
+
+    public Product() {
+    }
 
     public Long getId() {
         return id;
