@@ -7,6 +7,9 @@ import com.javaguru.shoppinglist.repository.ProductRepository;
 import com.javaguru.shoppinglist.service.validation.ValidationException;
 import com.javaguru.shoppinglist.service.validation.ValidationRule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -46,8 +49,24 @@ public class ProductService {
         return converter.convert(product);
     }
 
+    public List<ProductDTO> findByName(String name) {
+        List<Product> products = productRepository.findByName(name);
+        List<ProductDTO> productDTOs = products.stream().map(x -> converter.convert(x)).collect(Collectors.toList());
+
+        return productDTOs;
+    }
+
     public List<ProductDTO> findAll() {
         List<Product> products = productRepository.findAll();
+        List<ProductDTO> productDTOs = products.stream().map(x -> converter.convert(x)).collect(Collectors.toList());
+
+        return productDTOs;
+    }
+
+    public List<ProductDTO> findAll(Integer page, Integer size) {
+        Pageable pageRequest = PageRequest.of(page, size);
+        Page<Product> pagedResult = productRepository.findAll(pageRequest);
+        List<Product> products = pagedResult.getContent();
         List<ProductDTO> productDTOs = products.stream().map(x -> converter.convert(x)).collect(Collectors.toList());
 
         return productDTOs;
@@ -56,4 +75,5 @@ public class ProductService {
     public void delete(Long id) {
         productRepository.deleteById(id);
     }
+
 }

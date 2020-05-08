@@ -9,18 +9,24 @@ import com.javaguru.shoppinglist.service.validation.ValidationRule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,7 +59,7 @@ class ProductServiceTest {
     }
 
     @Test
-    public void saveShouldReturnId() throws ValidationException {
+    public void save_ShouldReturnId() throws ValidationException {
         doNothing().when(validationRule).validate(product);
 
         Long id = service.save(productDTO);
@@ -62,7 +68,7 @@ class ProductServiceTest {
     }
 
     @Test
-    public void saveShouldThrowValidationException() {
+    public void save_ShouldThrowValidationException() {
         doThrow(new ValidationException()).when(validationRule).validate(product);
 
         assertThrows(ValidationException.class, () -> service.save(productDTO));
@@ -77,7 +83,7 @@ class ProductServiceTest {
     }
 
     @Test
-    public void updateShouldThrowValidationException() {
+    public void update_ShouldThrowValidationException() {
         when(productRepository.findById(productDTO.getId())).thenReturn(Optional.of(product));
         doThrow(new ValidationException()).when(validationRule).validate(product);
 
@@ -86,7 +92,7 @@ class ProductServiceTest {
     }
 
     @Test
-    public void updateShouldThrowNoSuchElementException() {
+    public void update_ShouldThrowNoSuchElementException() {
         when(productRepository.findById(productDTO.getId())).thenReturn(Optional.empty());
 
         assertThrows(NoSuchElementException.class, () -> service.update(productDTO));
@@ -94,24 +100,39 @@ class ProductServiceTest {
     }
 
     @Test
-    public void findByIdShouldReturnProductDTO() {
+    public void findById_ShouldReturnProductDTO() {
         when(productRepository.findById(productDTO.getId())).thenReturn(Optional.of(product));
 
         assertEquals(productDTO, service.findById(productDTO.getId()));
     }
 
     @Test
-    public void findByIdShouldThrowNoSuchElementException() {
+    public void findById_ShouldThrowNoSuchElementException() {
         when(productRepository.findById(productDTO.getId())).thenReturn(Optional.empty());
 
         assertThrows(NoSuchElementException.class, () -> service.findById(productDTO.getId()));
     }
 
     @Test
-    public void findAll() {
+    public void findByName_ShouldReturnProductDtoList() {
+        given(productRepository.findByName("name")).willReturn(Collections.singletonList(product));
+
+        assertEquals(Collections.singletonList(productDTO), service.findByName("name"));
+    }
+
+    @Test
+    public void findAll_ShouldReturnProductDtoList() {
         when(productRepository.findAll()).thenReturn(Arrays.asList(product));
 
         assertEquals(Arrays.asList(productDTO), service.findAll());
+    }
+
+    @Test
+    public void findAll_PageableShouldReturnProductDtoList() {
+        Page page = new PageImpl(Collections.singletonList(product));
+        given(productRepository.findAll(BDDMockito.any(Pageable.class))).willReturn(page);
+
+        assertEquals(Collections.singletonList(productDTO), service.findAll(1, 1));
     }
 
     @Test
