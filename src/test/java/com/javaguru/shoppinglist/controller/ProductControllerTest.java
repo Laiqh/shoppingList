@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javaguru.shoppinglist.dto.ProductDTO;
 import com.javaguru.shoppinglist.service.ProductService;
 import com.javaguru.shoppinglist.service.validation.ValidationException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
@@ -46,10 +47,11 @@ class ProductControllerTest {
 
     private static final String ROOT_PATH = "/api/v1/products";
 
+    private ProductDTO dto;
 
-    @Test
-    public void findAll_ShouldReturnProducts() throws Exception {
-        ProductDTO dto = new ProductDTO();
+    @BeforeEach
+    public void init() {
+        dto = new ProductDTO();
         dto.setId(1L);
         dto.setName("name");
         dto.setCategory("category");
@@ -57,6 +59,11 @@ class ProductControllerTest {
         dto.setDiscount(BigDecimal.valueOf(0.5));
         dto.setFinalPrice(BigDecimal.valueOf(0.5));
         dto.setDescription("description");
+    }
+
+
+    @Test
+    public void findAll_ShouldReturnProductDtoList() throws Exception {
 
         List<ProductDTO> result = Collections.singletonList(dto);
 
@@ -75,15 +82,49 @@ class ProductControllerTest {
     }
 
     @Test
-    public void findProductById_ShouldReturnProduct() throws Exception {
-        ProductDTO dto = new ProductDTO();
-        dto.setId(1L);
-        dto.setName("name");
-        dto.setCategory("category");
-        dto.setPrice(BigDecimal.valueOf(1));
-        dto.setDiscount(BigDecimal.valueOf(0.5));
-        dto.setFinalPrice(BigDecimal.valueOf(0.5));
-        dto.setDescription("description");
+    public void findAllPageable_ShouldReturnProductDtoList() throws Exception {
+
+        List<ProductDTO> result = Collections.singletonList(dto);
+
+        Integer page = 0;
+        Integer size = 1;
+
+        given(service.findAll(page, size)).willReturn(result);
+
+        MvcResult mvcResult = mvc.perform(get(ROOT_PATH + "?page=" + page + "&size=" + size))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andReturn();
+
+        String actual = mvcResult.getResponse().getContentAsString();
+        String expected = mapper.writeValueAsString(result);
+
+        assertThat(actual, equalToCompressingWhiteSpace(expected));
+    }
+
+    @Test
+    public void findProductByName_ShouldReturnProductDtoList() throws Exception {
+
+        List<ProductDTO> result = Collections.singletonList(dto);
+
+        given(service.findByName("name")).willReturn(result);
+
+        MvcResult mvcResult = mvc.perform(get(ROOT_PATH + "?name=name")).andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andReturn();
+
+        String actual = mvcResult.getResponse().getContentAsString();
+        String expected = mapper.writeValueAsString(result);
+
+        assertThat(actual, equalToCompressingWhiteSpace(expected));
+    }
+
+    @Test
+    public void findProductById_ShouldReturnProductDto() throws Exception {
 
         given(service.findById(1L)).willReturn(dto);
 
